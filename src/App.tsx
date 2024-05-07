@@ -16,19 +16,18 @@ export default function App() {
   const isValidDepartDate = departDate >= TODAY;
   const isValidReturnDate = returnDate >= departDate;
 
-  console.log("isRoundTrip", isRoundTrip);
-  console.log("state.context", state.context.tripType);
-
   const successMessage = (
     <>
-      <Header>Booked</Header>
-      <p>You booked a {isRoundTrip ? "round trip" : "one way"} flight. </p>
+      <Header>Booked!</Header>
       <p>
-        <span>Departs:</span> {format(departDate, dateFormat)}
+        You booked a <b>{isRoundTrip ? "round trip" : "one way"}</b> flight.
+      </p>
+      <p>
+        <b>Departs:</b> {format(departDate, dateFormat)}
       </p>
       {isRoundTrip && (
         <p>
-          <span>Returns:</span> {format(returnDate, dateFormat)}
+          <b>Returns:</b> {format(returnDate, dateFormat)}
         </p>
       )}
     </>

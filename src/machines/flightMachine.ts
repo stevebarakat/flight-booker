@@ -32,7 +32,7 @@ export const flightBookerMachine = setup({
   },
   actors: {
     Booker: fromPromise(() => {
-      return sleep(2000);
+      return sleep(1000);
     }),
   },
   guards: {

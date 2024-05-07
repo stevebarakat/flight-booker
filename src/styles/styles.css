@@ -54,6 +54,9 @@ body {
     border-radius: 0;
     border-bottom: 1px solid var(--dark-gray);
   }
+  & b {
+    font-weight: 700;
+  }
 }
 
 main {

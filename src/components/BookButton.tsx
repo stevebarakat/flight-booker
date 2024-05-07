@@ -16,7 +16,7 @@ export default function BookButton({ eventType, isBooking, isBooked }: Props) {
 
   return (
     <button onClick={bookFlight} disabled={!canBook}>
-      {isBooking ? "Booking" : isBooked ? "Booked!" : "Book"}
+      {isBooking ? "Booking..." : "Book"}
     </button>
   );
 }
