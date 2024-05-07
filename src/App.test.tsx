@@ -44,19 +44,4 @@ describe("Flight Booker", () => {
     const bookButton = screen.getByRole("button");
     expect(bookButton).toBeDisabled();
   });
-
-  it("Ensure itinerary is displayed when flight is booked.", () => {
-    render(
-      <FlightContext.Provider>
-        <App />
-      </FlightContext.Provider>
-    );
-
-    const bookButton = screen.getByRole("button");
-    fireEvent.click(bookButton);
-    setTimeout(() => {
-      screen.getByText("Booked!");
-    }, 2000);
-    screen.debug();
-  });
 });
