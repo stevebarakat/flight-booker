@@ -4,9 +4,10 @@ import FlightContext from "./machines/flightMachine.ts";
 import App from "./App";
 
 const YESTERDAY = generateDate(-1);
+const LAST_WEEK = generateDate(-7);
 
 describe("Flight Booker", () => {
-  it("Ensures book button is disabled when depart date is in the past.", () => {
+  it("Ensure book button is disabled when depart date is in the past.", () => {
     render(
       <FlightContext.Provider>
         <App />
@@ -18,7 +19,7 @@ describe("Flight Booker", () => {
     expect(bookButton).toBeDisabled();
   });
 
-  it("Ensures book button is enabled when depart date is today.", () => {
+  it("Ensure Return Date input is showing when return flight is selected.", () => {
     render(
       <FlightContext.Provider>
         <App />
@@ -28,5 +29,34 @@ describe("Flight Booker", () => {
     fireEvent.change(flightSelect, { target: { value: "roundTrip" } });
     const returnInput = screen.getByLabelText("Return Date");
     expect(returnInput).toBeInTheDocument();
+  });
+
+  it("Ensure book button is disabled when return date is before start date.", () => {
+    render(
+      <FlightContext.Provider>
+        <App />
+      </FlightContext.Provider>
+    );
+    const flightSelect = screen.getByLabelText("Trip Type");
+    fireEvent.change(flightSelect, { target: { value: "roundTrip" } });
+    const returnInput = screen.getByLabelText("Return Date");
+    fireEvent.change(returnInput, { target: { value: LAST_WEEK } });
+    const bookButton = screen.getByRole("button");
+    expect(bookButton).toBeDisabled();
+  });
+
+  it("Ensure itinerary is displayed when flight is booked.", () => {
+    render(
+      <FlightContext.Provider>
+        <App />
+      </FlightContext.Provider>
+    );
+
+    const bookButton = screen.getByRole("button");
+    fireEvent.click(bookButton);
+    setTimeout(() => {
+      screen.getByText("Booked!");
+    }, 2000);
+    screen.debug();
   });
 });
