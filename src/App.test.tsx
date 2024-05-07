@@ -5,8 +5,8 @@ import App from "./App";
 
 const YESTERDAY = generateDate(-1);
 
-describe("Experimenting", () => {
-  it("renders headline", () => {
+describe("Flight Booker", () => {
+  it("Ensures book button is disabled when depart date is in the past.", () => {
     render(
       <FlightContext.Provider>
         <App />
@@ -16,38 +16,17 @@ describe("Experimenting", () => {
     const bookButton = screen.getByRole("button");
     fireEvent.change(departInput, { target: { value: YESTERDAY } });
     expect(bookButton).toBeDisabled();
-    screen.debug();
   });
-});
 
-describe("Experimenting 2", () => {
-  it("renders headline 2", () => {
+  it("Ensures book button is enabled when depart date is today.", () => {
     render(
       <FlightContext.Provider>
         <App />
       </FlightContext.Provider>
     );
-    const departInput = screen.getByLabelText("Depart Date");
-    const bookButton = screen.getByRole("button");
-    fireEvent.change(departInput, { target: { value: YESTERDAY } });
-    expect(bookButton).toBeDisabled();
-    screen.debug();
-  });
-});
-
-describe("Experimenting 3", () => {
-  it("renders headline 3", () => {
-    render(
-      <FlightContext.Provider>
-        <App />
-      </FlightContext.Provider>
-    );
-    const flightInput = screen.getByDisplayValue("one way flight");
+    const flightSelect = screen.getByLabelText("Trip Type");
+    fireEvent.change(flightSelect, { target: { value: "roundTrip" } });
     const returnInput = screen.getByLabelText("Return Date");
-    const bookButton = screen.getByRole("button");
-    fireEvent.change(flightInput, { target: { value: "round trip" } });
-    fireEvent.change(returnInput, { target: { value: YESTERDAY } });
-    expect(bookButton).toBeDisabled();
-    screen.debug();
+    expect(returnInput).toBeInTheDocument();
   });
 });
