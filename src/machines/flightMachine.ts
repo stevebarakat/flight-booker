@@ -44,6 +44,7 @@ export const flightBookerMachine = setup({
     },
   },
 }).createMachine({
+  /** @xstate-layout N4IgpgJg5mDOIC5QDMA2BLKALALgIQHsCBrMAJwFkBDAYy3QDswA6WOyAVwwamYKYDqVAJ4BiAMIAJAIIA5AOIBRAPoAVAEoBJAApqAmtsUBtAAwBdRKAAOBWOhzp+lkAA9EARgBMAVgDMzAHZfABZPAM8ATgD3EwjPTwAaEGFEX08ANmZvaPiIiODvYIDg9ICAXzKktExcQhJyajpGFjYsTm4oUTwAeW6AaWUAEUVtaXVVUwskEBs7BydptwR3CJMs728faPT3AoAOYL2klIRPEuZfPa8fbz3vCN8A7wqqjGx8IlJKWnomVnYIFxGLwyAQOAwIKoyOgrBIZAoVBodPpDJNnLN7I4GM4luk-Mx8rsTLs9iZgsF3O5jqkMlkcpF8oViqUXiBqu86l9Gr8WgCgTxmKDwZDobCpHIlMp1IpVABVdSyIbSVTGczo2yYhagJYBdL+Xy3EzpK5FGIBI7JRAbPZ0655ApFIqs9m1T4NH7Nf5tQEdLq9AbSuUKtHTDHzbGLRB7AIRZilAImPa+ZMpg3U5YmXzuQLRorW+6PZ6VNlvV31b5NP6tdrAuESlTDUbjJUqkPWDXhnGIdImdPmzzO0sfcvcz0AI0+tYg-BYjAAbvVmC7h1yPX8JyRgQh5wQaFRw5M2zMO1iuwhvO4AhdUzfk9505SMoOaiv3ZWWBviLXyKCyMwrKg+7IAQZAALZLkOnJvjyzCfluO57ge5hHmGp6Ruel7MEmt6pveloIKSEQVMWDAEBAcDOMuUEVjy6pzGh2oeIk+EALQ2qE0YJiYhSbH49zPhybo0Z61Y+sCdGahGjEID23gEhSwTEocZIUlS+G7MEtq5IyjrpMEAllqu75ejWAozkIJztvRWquFGcQXIaxq7NEJi6umnghFpDIOsy+nFlRQmjlWfIdIKYIQlCMISZ26F7BE2YGqSTmmq56TpiUmTZHaOnMuU-mQYFa4fpOPDRQxtkYb2+FxAO+UvtRQXFfUEBlTZSyFBED6eLsxFlEAA */
   id: "flightBookerMachine",
   context: {
     departDate: TODAY,
@@ -60,6 +61,20 @@ export const flightBookerMachine = setup({
             type: "setDepartDate",
           },
         },
+
+        BOOK_DEPART: {
+          target: "booking",
+          guard: {
+            type: "isValidDepartDate?",
+          },
+        },
+
+        BOOK_RETURN: {
+          target: "booking",
+          guard: {
+            type: "isValidReturnDate?",
+          },
+        }
       },
       states: {
         oneWay: {
@@ -70,13 +85,7 @@ export const flightBookerMachine = setup({
                 type: "setTripType",
                 tripType: "roundTrip",
               },
-            },
-            BOOK_DEPART: {
-              target: "#flightBookerMachine.booking",
-              guard: {
-                type: "isValidDepartDate?",
-              },
-            },
+            }
           },
         },
         roundTrip: {
@@ -88,17 +97,12 @@ export const flightBookerMachine = setup({
                 tripType: "oneWay",
               },
             },
+
             CHANGE_RETURN_DATE: {
               actions: {
                 type: "setReturnDate",
               },
-            },
-            BOOK_RETURN: {
-              target: "#flightBookerMachine.booking",
-              guard: {
-                type: "isValidReturnDate?",
-              },
-            },
+            }
           },
         },
       },
